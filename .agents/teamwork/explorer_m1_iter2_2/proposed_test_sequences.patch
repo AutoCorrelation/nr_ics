@@ -1,0 +1,51 @@
+--- a/tests/test_sequences.m
++++ b/tests/test_sequences.m
+@@ -163,22 +163,40 @@
+ %% Test 11: Extended SSS - Cross-Correlation Isolation Across Cell IDs
++% Evaluates synchronous zero-lag isolation (governing Cell-ID discrimination in
++% OFDM receivers after PSS synchronization) and verifies cross-correlation bounds.
+ test_cells = [0, 1, 10, 100, 254, 255, 511, 700, 1007];
++num_pairs = length(test_cells) * (length(test_cells) - 1) / 2;
++zero_cross_vals = zeros(num_pairs, 1);
++pair_idx = 0;
+ max_zero_cross = 0;
+ max_all_cross = 0;
++
+ for i = 1:length(test_cells)
+     for j = (i+1):length(test_cells)
+         s_i = double(nr_sim.sequences.gen_ExtendedSSS(test_cells(i)));
+         s_j = double(nr_sim.sequences.gen_ExtendedSSS(test_cells(j)));
+         
++        % Normalized zero-lag cross-correlation (synchronous subcarrier isolation)
+         c0 = abs(sum(s_i(:) .* s_j(:))) / 240;
++        pair_idx = pair_idx + 1;
++        zero_cross_vals(pair_idx) = c0;
+         max_zero_cross = max(max_zero_cross, c0);
+         
+         c_all = max(abs(xcorr(s_i(:), s_j(:)))) / 240;
+         max_all_cross = max(max_all_cross, c_all);
+     end
+ end
++
++% 1. Zero-lag cross-correlation governs synchronous Cell-ID detection in OFDM
+ assert(max_zero_cross <= 0.1500, ...
+     sprintf('Extended SSS maximum zero-lag cross-correlation %.4f exceeds 0.15 limit', max_zero_cross));
++assert(mean(zero_cross_vals) < 0.0800, ...
++    sprintf('Extended SSS mean zero-lag cross-correlation %.4f exceeds 0.08 limit', mean(zero_cross_vals)));
++
++% 2. Distinct shift differential pairs have all-lag cross-correlation < 0.3000
+ assert(max_all_cross < 0.3000, ...
+     sprintf('Extended SSS maximum all-lag cross-correlation %.4f exceeds 0.30 limit', max_all_cross));
++
++% 3. Adversarial shift-collision stress test (PCIs sharing identical delta = (m0 - m1) mod 255)
++% PCI 0 (m0=0, m1=0) and PCI 319 (m0=64, m1=64) share delta=0.
++% At zero lag (synchronous grid), isolation is strictly preserved (<= 0.1500).
++% At lag 64, aperiodic overlap reaches (240 - 64)/240 = 0.7333 <= 0.7500.
++s0 = double(nr_sim.sequences.gen_ExtendedSSS(0));
++s319 = double(nr_sim.sequences.gen_ExtendedSSS(319));
++c0_collision = abs(sum(s0(:) .* s319(:))) / 240;
++call_collision = max(abs(xcorr(s0(:), s319(:)))) / 240;
++assert(c0_collision <= 0.1500, ...
++    sprintf('Shift-collision zero-lag cross-correlation %.4f exceeds 0.15 limit', c0_collision));
++assert(call_collision <= 0.7500, ...
++    sprintf('Shift-collision all-lag peak %.4f exceeds theoretical overlap bound 0.75', call_collision));

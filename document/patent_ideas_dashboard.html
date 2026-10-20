@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>6GR SSB 특허 아이디어 분석 대시보드</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    /* Smooth transitions and custom scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 9999px; }
+    .badge-keep { background-color: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-revise { background-color: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .badge-reject { background-color: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .badge-duplicate { background-color: rgba(148, 163, 184, 0.15); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.3); }
+  </style>
+</head>
+<body class="bg-[var(--background)] text-[var(--foreground)] antialiased min-h-screen p-4 md:p-6 font-sans">
+
+  <!-- Header Banner -->
+  <header class="mb-6 pb-5 border-b border-[var(--border)]">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2 mb-1">
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--primary)] text-[var(--primary-foreground)]">3GPP RAN1</span>
+          <span class="text-xs text-[var(--muted-foreground)] font-mono">Report ID: 20261006-125707-e82332d0</span>
+        </div>
+        <h1 class="text-xl md:text-2xl font-bold tracking-tight text-[var(--foreground)]">
+          6GR SSB DMRS Interpolation &amp; SSS 보완 특허 아이디어 분석
+        </h1>
+        <p class="text-xs md:text-sm text-[var(--muted-foreground)] mt-1">
+          주제: SSS로 채널 추정이 가능한 구간의 DMRS를 제거하고, SSS 미할당 부반송파에 DMRS를 전략적 배치하는 34개 특허안 검토
+        </p>
+      </div>
+
+      <!-- Quick KPI Counters -->
+      <div class="flex items-center gap-2 text-xs">
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-lg px-3 py-2 text-center min-w-[70px]">
+          <div class="text-[var(--muted-foreground)] text-xs">전체</div>
+          <div class="text-base font-bold text-[var(--foreground)]">34</div>
+        </div>
+        <div class="badge-keep rounded-lg px-3 py-2 text-center min-w-[70px]">
+          <div class="text-xs font-medium">Keep</div>
+          <div class="text-base font-bold">6</div>
+        </div>
+        <div class="badge-revise rounded-lg px-3 py-2 text-center min-w-[70px]">
+          <div class="text-xs font-medium">Revise</div>
+          <div class="text-base font-bold">11</div>
+        </div>
+        <div class="badge-reject rounded-lg px-3 py-2 text-center min-w-[70px]">
+          <div class="text-xs font-medium">Reject</div>
+          <div class="text-base font-bold">7</div>
+        </div>
+        <div class="badge-duplicate rounded-lg px-3 py-2 text-center min-w-[70px]">
+          <div class="text-xs font-medium">Dup</div>
+          <div class="text-base font-bold">10</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <div class="flex items-center gap-2 mb-6 border-b border-[var(--border)] overflow-x-auto pb-2 text-xs md:text-sm">
+    <button onclick="switchTab('top5')" id="tab-top5" class="tab-btn px-4 py-2 font-medium rounded-lg transition-colors bg-[var(--primary)] text-[var(--primary-foreground)]">
+      ⭐ 핵심 추천 특허 TOP 5 상세 분석
+    </button>
+    <button onclick="switchTab('all')" id="tab-all" class="tab-btn px-4 py-2 font-medium rounded-lg transition-colors text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--card)]">
+      📋 34개 전체 후보 매트릭스 &amp; 탐색
+    </button>
+    <button onclick="switchTab('clusters')" id="tab-clusters" class="tab-btn px-4 py-2 font-medium rounded-lg transition-colors text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--card)]">
+      🧩 9대 중복 기능군 &amp; SCAMPER 분류
+    </button>
+    <button onclick="switchTab('strategy')" id="tab-strategy" class="tab-btn px-4 py-2 font-medium rounded-lg transition-colors text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--card)]">
+      ⚖️ 선행기술 한계 &amp; 표준화 전략
+    </button>
+  </div>
+
+  <!-- TAB 1: TOP 5 DETAILED ANALYSIS -->
+  <section id="content-top5" class="tab-content space-y-6">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      
+      <!-- Left: Selector List of Top 5 -->
+      <div class="lg:col-span-4 space-y-3">
+        <h2 class="text-sm font-semibold uppercase tracking-wider text-[var(--muted-foreground)] mb-2">추천 후보 선택</h2>
+        <div id="top5-list" class="space-y-2">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Right: Detailed Card for Active Candidate -->
+      <div class="lg:col-span-8">
+        <div id="top5-detail" class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 md:p-6 shadow-sm space-y-5">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 2: ALL 34 CANDIDATES TABLE & SEARCH -->
+  <section id="content-all" class="tab-content hidden space-y-4">
+    <!-- Filter bar -->
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 flex flex-col md:flex-row gap-3 items-center justify-between">
+      <div class="flex items-center gap-2 flex-wrap w-full md:w-auto">
+        <span class="text-xs font-semibold text-[var(--muted-foreground)]">상태 필터:</span>
+        <button onclick="filterCandidates('all')" class="status-filter active px-2.5 py-1 text-xs rounded-md bg-[var(--primary)] text-[var(--primary-foreground)]">전체 (34)</button>
+        <button onclick="filterCandidates('keep')" class="status-filter px-2.5 py-1 text-xs rounded-md border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]">Keep (6)</button>
+        <button onclick="filterCandidates('revise')" class="status-filter px-2.5 py-1 text-xs rounded-md border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]">Revise (11)</button>
+        <button onclick="filterCandidates('reject')" class="status-filter px-2.5 py-1 text-xs rounded-md border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]">Reject (7)</button>
+        <button onclick="filterCandidates('duplicate')" class="status-filter px-2.5 py-1 text-xs rounded-md border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]">Duplicate (10)</button>
+      </div>
+      <div class="w-full md:w-72">
+        <input type="text" id="search-input" oninput="renderTable()" placeholder="후보 ID, 제목, 키워드 검색..." 
+               class="w-full px-3 py-1.5 text-xs bg-[var(--background)] border border-[var(--border)] rounded-lg text-[var(--foreground)] placeholder-[var(--placeholder)] focus:outline-none focus:border-[var(--primary)]">
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden shadow-sm">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-[var(--background)] border-b border-[var(--border)] text-[var(--muted-foreground)] uppercase">
+            <tr>
+              <th class="px-4 py-3 font-semibold">ID</th>
+              <th class="px-4 py-3 font-semibold">특허 아이디어 제목</th>
+              <th class="px-3 py-3 font-semibold text-center">판정</th>
+              <th class="px-3 py-3 font-semibold text-center">구별성</th>
+              <th class="px-3 py-3 font-semibold text-center">실현성</th>
+              <th class="px-3 py-3 font-semibold text-center">기술가치</th>
+              <th class="px-3 py-3 font-semibold">비고 / 중복 대표</th>
+            </tr>
+          </thead>
+          <tbody id="table-body" class="divide-y divide-[var(--border)]">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 3: 9 DUPLICATE CLUSTERS & SCAMPER -->
+  <section id="content-clusters" class="tab-content hidden space-y-6">
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 mb-4">
+      <h3 class="text-sm font-bold text-[var(--foreground)] mb-1">9대 핵심 중복 기능군 (Duplicate Feature Clusters)</h3>
+      <p class="text-xs text-[var(--muted-foreground)]">
+        34개 후보 중 10개 후보가 기존 아이디어와 기능적으로 결합되어 중복(Duplicate) 처리되었습니다. 아래는 도출된 9개 기능군과 대표 후보 매핑입니다.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="cluster-cards">
+      <!-- Populated by JS -->
+    </div>
+  </section>
+
+  <!-- TAB 4: STANDARDIZATION & STRATEGY -->
+  <section id="content-strategy" class="tab-content hidden space-y-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      
+      <!-- Card 1: Implementation Gaps -->
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-3">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+          <h3 class="text-sm font-bold text-[var(--foreground)]">핵심 구현 공백 (Implementation Gaps)</h3>
+        </div>
+        <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">
+          검토 보고서에서 지적된 물리 계층의 핵심 미해결 영역입니다. 특허 출원 시 반드시 수치적/이론적 보완이 필요한 부분입니다:
+        </p>
+        <ul class="space-y-2 text-xs text-[var(--foreground)] list-disc pl-5">
+          <li><strong>주파수 간 Coherence 식별</strong>: SSS 관측 구간과 DMRS 구간 간의 위상/채널 상관성 보장 여부</li>
+          <li><strong>미관측 Channel Mode 복원</strong>: 고속 도플러 에이징 환경에서 심볼 간 비선형 채널 변화 추적 한계</li>
+          <li><strong>2-Port 관측 차원 한계</strong>: 단일 SSS 관측만으로 2개 포트의 채널 행렬을 독립 분리하는 조건수 문제</li>
+          <li><strong>PBCH 이전 UL Bootstrap 부재</strong>: 단말이 사전 정보 없이 DMRS 가설을 블라인드 선택할 때의 지연</li>
+        </ul>
+      </div>
+
+      <!-- Card 2: Standards vs Implementation Strategy -->
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-3">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+          <h3 class="text-sm font-bold text-[var(--foreground)]">표준 규격 변경(Normative) vs 단말 구현(Implementation)</h3>
+        </div>
+        <div class="space-y-3 text-xs">
+          <div class="p-3 bg-[var(--background)] border border-[var(--border)] rounded-lg">
+            <div class="font-semibold text-[var(--foreground)] mb-1">📌 표준 규격(Normative) 제안형 (기지국 송신 필수)</div>
+            <p class="text-[var(--muted-foreground)]">
+              <strong>mper-01, sca-02, sca-11</strong>: DMRS 위치 재배치, SSS 회전 궤적, Rate-matching 순열 등은 gNB 송신 표준(TS 38.211/38.212) 개정이 필수이며, 채택 시 강력한 SEP(표준필수특허) 후보가 됨.
+            </p>
+          </div>
+          <div class="p-3 bg-[var(--background)] border border-[var(--border)] rounded-lg">
+            <div class="font-semibold text-[var(--foreground)] mb-1">📱 단말 자체 구현(Implementation) 독자 수신기 특허</div>
+            <p class="text-[var(--muted-foreground)]">
+              <strong>mper-13, sca-07, sca-13</strong>: 기존 표준 신호 배치를 변경하지 않고, 단말 내부의 Holdout DMRS 검증, List Consensus pseudo-reference refinement 등 독자 복호 알고리즘으로 등록 가능.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Prior Art Risk & Search Queries -->
+      <div class="md:col-span-2 bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-4">
+        <h3 class="text-sm font-bold text-[var(--foreground)]">선행기술 위험 분석 및 핵심 검색 질의 (Search Strategy)</h3>
+        <p class="text-xs text-[var(--muted-foreground)]">
+          현재 보고서 상태는 외부 선행기술 검색이 미완료된 상태입니다. 아래 추천 검색식을 기반으로 KIPRIS / Google Patents 실검색이 필요합니다:
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs font-mono">
+          <div class="p-3 bg-[var(--background)] border border-[var(--border)] rounded-lg">
+            <div class="text-[var(--muted-foreground)] text-xs mb-1">mper-01 (보완 DMRS 최소 특이값 배치)</div>
+            <div class="text-[var(--foreground)] select-all">OFDM pilot placement fixed synchronization pilots minimum singular value delay domain channel estimation</div>
+          </div>
+          <div class="p-3 bg-[var(--background)] border border-[var(--border)] rounded-lg">
+            <div class="text-[var(--muted-foreground)] text-xs mb-1">mper-13 (부분 결정 Consensus Refinement)</div>
+            <div class="text-[var(--foreground)] select-all">Polar list consensus coded symbols decision directed channel estimation held out pilots</div>
+          </div>
+          <div class="p-3 bg-[var(--background)] border border-[var(--border)] rounded-lg">
+            <div class="text-[var(--muted-foreground)] text-xs mb-1">sca-02 (SSS 회전-DMRS 교차 궤적)</div>
+            <div class="text-[var(--foreground)] select-all">rotating comb synchronization pilots same subcarrier temporal slope reference mapping</div>
+          </div>
+          <div class="p-3 bg-[var(--background)] border border-[var(--border)] rounded-lg">
+            <div class="text-[var(--muted-foreground)] text-xs mb-1">sca-11 (오차 상관 분산 Rate Matching)</div>
+            <div class="text-[var(--foreground)] select-all">channel estimation error covariance aware interleaving repeated coded bit mapping</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Interactive Detail Modal for Table Click -->
+  <div id="modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl max-w-2xl w-full p-6 shadow-xl max-h-[85vh] overflow-y-auto space-y-4">
+      <div class="flex items-start justify-between">
+        <div>
+          <span id="modal-badge" class="px-2 py-0.5 rounded text-xs font-medium"></span>
+          <h3 id="modal-title" class="text-base font-bold text-[var(--foreground)] mt-2"></h3>
+          <p id="modal-id" class="text-xs text-[var(--muted-foreground)] font-mono"></p>
+        </div>
+        <button onclick="closeModal()" class="text-[var(--muted-foreground)] hover:text-[var(--foreground)] text-lg font-bold p-1">&times;</button>
+      </div>
+
+      <div class="space-y-3 text-xs text-[var(--foreground)]">
+        <div class="p-3 bg-[var(--background)] rounded-lg border border-[var(--border)]">
+          <div class="font-semibold text-[var(--muted-foreground)] mb-1">점수 평가 내역 (구별성 / 실현성 / 기술가치)</div>
+          <div id="modal-scores" class="text-sm font-bold"></div>
+        </div>
+        <div>
+          <div class="font-semibold text-[var(--muted-foreground)] mb-1">상세 내용 및 검토 소견</div>
+          <p id="modal-desc" class="text-[var(--muted-foreground)] leading-relaxed"></p>
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-[var(--border)] flex justify-end">
+        <button onclick="closeModal()" class="px-4 py-1.5 text-xs font-medium bg-[var(--primary)] text-[var(--primary-foreground)] rounded-lg">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // TOP 5 DETAILED DATA
+    const top5Data = [
+      {
+        id: "mper-01",
+        title: "SSS 관측 범위와 delay support를 결합한 보완 DMRS 배치",
+        score: "7.0 / 10",
+        confidence: "medium",
+        scamper: "M (Modify)",
+        domain: "SSS 미할당 subcarrier에서의 PBCH DMRS 배치",
+        scores: { distinct: 7, feasible: 7, value: 7 },
+        problem: "SSS가 존재하는 주파수 구간에서 DMRS를 제거하더라도, SSS 대역 바깥의 채널을 안정적으로 복원할 수 있는 관측 조건이 보장되지 않습니다.",
+        existing: "SSS와 일정 간격의 DMRS를 독립 배치하거나, SSS와 대역 양 끝단의 DMRS를 결합하여 단순 선형 보간합니다.",
+        procedure: [
+          "gNB는 SSS 할당 집합과 설계상 최대 delay support를 함께 고려하여, 채널 복원 행렬의 최소 singular value(특이값)가 기준을 만족하는 DMRS 집합을 SSS 여집합에서 선택.",
+          "SSS 관측으로 충분히 제약되는 구간의 DMRS를 PBCH Data로 전환하고, 공통 acquisition DMRS 유지.",
+          "UE는 PSS/SSS 검출 후 acquisition DMRS로 mapping 후보를 제한하고, delay-domain 채널 추정.",
+          "추정에 사용하지 않은 검증 DMRS의 예측 오차로 mapping과 delay support 가설을 검증 후 PBCH 복호.",
+          "검증 오차 초과 시 주기적으로 전송되는 고정 robust profile 대기."
+        ],
+        interaction: "DMRS 위치를 단순 거리가 아닌 복원 행렬의 최소 특이값(식별 가능성)으로 결정하며, DMRS 제거와 배치가 동일 delay support 조건에 종속됩니다.",
+        counterarg: "알려진 pilot을 고정 관측으로 포함한 실험 계획 최적화와 holdout model selection의 통상 결합이라는 반론.",
+        gridConcept: "Symbol 2 SSS (중앙) + Symbol 1,3 SSS 여집합에 최소 특이값 최적화 DMRS 배치"
+      },
+      {
+        id: "mper-13",
+        title: "PBCH의 검증된 부분 결정을 먼저 활용하는 channel refinement",
+        score: "7.0 / 10",
+        confidence: "medium",
+        scamper: "R (Reverse)",
+        domain: "Sparse 보완 DMRS와 PBCH iterative 수신의 순서",
+        scores: { distinct: 7, feasible: 7, value: 7 },
+        problem: "보완 DMRS가 희소하면 초기 채널 추정이 부족하지만, 전체 PBCH 복호 성공을 기다린 뒤 재추정하면 유용한 정보가 너무 늦게 반영됩니다.",
+        existing: "Pilot-only 추정 후 PBCH 1회 복호, 또는 전체 CRC 성공 후 반복 채널 추정.",
+        procedure: [
+          "gNB는 SSS 미할당 구간의 보완 DMRS 및 일부 검증 DMRS를 포함한 sparse mapping 전송.",
+          "UE는 SSS/DMRS로 초기 채널 획득 후, 제한된 List decoding으로 다수 PBCH 가설 생성.",
+          "상위 가설들이 공통으로 일치하고 신뢰도가 충분한 coded symbol만 pseudo-reference로 선택.",
+          "독립 검증 DMRS의 예측 오차를 줄인 경우에만 채널 수정 적용 (Rollback 지원).",
+          "검증 통과 시 1회 추가 복호 수행 후 CRC 확인. 실패 시 원본 복원 및 중단."
+        ],
+        interaction: "전체 복호 성공 전 부분 결정 정보를 먼저 쓰되, 디코더 신뢰도가 아닌 독립 검증 DMRS가 수정의 승인/롤백을 결정합니다.",
+        counterarg: "List-decoder-aided CE에 holdout 검증을 추가한 통상적인 기법이라는 반론.",
+        gridConcept: "Sparse DMRS + Holdout DMRS (검증용) + PBCH Polar List Consensus 재인코딩"
+      },
+      {
+        id: "sca-02",
+        title: "SSS 관측을 다음 심볼의 보완 DMRS로 연결하는 교차 궤적",
+        score: "7.0 / 10",
+        confidence: "medium",
+        scamper: "S (Substitute)",
+        domain: "Comb-SSS와 complementary DMRS의 시간·주파수 배치",
+        scores: { distinct: 7, feasible: 7, value: 7 },
+        problem: "동일 Comb offset의 SSS를 반복하면 특정 subcarrier에는 시간 변화의 직접 관측이 없어 고속 이동 시 심각한 보간 오차 발생.",
+        existing: "모든 PBCH 심볼에 동일 Comb-SSS offset 사용 및 심볼별 독립 보간.",
+        procedure: [
+          "gNB는 3-symbol mapping에서 SSS Comb offset을 심볼마다 순환(Rotation).",
+          "이전 심볼에서 SSS가 있었고 현재 심볼에서는 SSS가 없는 subcarrier에 DMRS 배치.",
+          "동일 subcarrier에서 [이전 SSS - 현재 DMRS] 시간차 관측 쌍을 형성하여 local temporal slope 계산.",
+          "관측 쌍 잔차가 큰 구간에서는 slope 적용 중단하고 해당 심볼 DMRS 중심 추정으로 fallback."
+        ],
+        interaction: "SSS offset 회전이 비운 빈자리에 DMRS를 배치하여 동일 주파수 상의 시간 관측 쌍(Temporal Slope)을 구축합니다.",
+        counterarg: "Pilot offset rotation에 동일 톤 재방문 제약을 추가한 일반적 scattered pilot 설계라는 반론.",
+        gridConcept: "Symbol 1: SSS Comb-3(offset 0) → Symbol 2: DMRS on offset 0, SSS on offset 1 교차"
+      },
+      {
+        id: "sca-11",
+        title: "추정 오차 상관을 분산시키는 PBCH rate matching과 DMRS 공동 설계",
+        score: "7.0 / 10",
+        confidence: "medium",
+        scamper: "C (Combine)",
+        domain: "회수한 DMRS RE의 PBCH Data 활용과 Polar rate matching",
+        scores: { distinct: 7, feasible: 7, value: 7 },
+        problem: "DMRS를 줄여 Data RE를 늘려도, 동일한 SSS 오차에 지배받는 RE에 반복 coded bit가 집중되면 코딩 이득이 제한됩니다.",
+        existing: "DMRS 축소 후 기존 순차 인터리빙 및 rate matching을 그대로 적용.",
+        procedure: [
+          "같은 pilot 관측에 의존하는 PBCH RE들을 estimation-error group으로 사전 분류.",
+          "동일 coded bit의 반복 관측이 서로 다른 error group에 놓이도록 rate matching 순서 결정.",
+          "UE는 de-rate matching 후 group별 채널 불확실성을 LLR 계산에 반영.",
+          "특정 group의 모델 불일치 시 해당 관측이 combining을 지배하지 않도록 신뢰도 제한."
+        ],
+        interaction: "DMRS 제거로 인한 오차 의존 구조가 Polar coded bit의 반복 배치 및 combining 신뢰도를 직접 제어합니다.",
+        counterarg: "Fading 상관 고려 인터리빙에서 correlation의 원천을 추정 오차로 바꾼 것에 불과하다는 반론.",
+        gridConcept: "Error Group 1 vs 2 분할 → 동일 Polar mother bit를 서로 다른 그룹에 교차 매핑"
+      },
+      {
+        id: "sca-07",
+        title: "독립 DMRS 검증을 통과한 경우에만 SSS 추정을 채택하는 수신기",
+        score: "6.75 / 10",
+        confidence: "low",
+        scamper: "C (Combine)",
+        domain: "SSS-assisted channel estimation의 모델 선택",
+        scores: { distinct: 7, feasible: 7, value: 6 },
+        problem: "SSS에서 PCI를 선택하고 동일 SSS로 채널까지 추정하면, 잘못된 hypothesis가 자기 자신을 지지하는 오류 발생.",
+        existing: "최대 SSS 상관 피크 PCI를 선택하고 SSS 추정치를 무조건 채택.",
+        procedure: [
+          "기존 mapping 유지. UE는 상위 소수의 PCI hypothesis를 유지.",
+          "DMRS를 고정 규칙으로 estimation 집합과 validation 집합으로 분할.",
+          "미사용 DMRS의 predictive likelihood로 PCI 및 SSS 결합 추정 모델 채택 여부 결정.",
+          "선택 완료 후 전체 DMRS로 최종 재추정하여 PBCH 복조. 차이 불명확 시 DMRS-only fallback."
+        ],
+        interaction: "SSS로 선택한 PCI와 채널 모델을 독립 DMRS 예측 성능으로 사후 검증하며, 선택 후에만 validation 관측을 재사용합니다.",
+        counterarg: "Cross-validation을 통상 적용한 수신기 알고리즘에 불과하다는 반론.",
+        gridConcept: "기존 표준 Grid 유지 + UE 내부 3-Fold Holdout DMRS Likelihood 검증"
+      }
+    ];
+
+    // ALL 34 CANDIDATES SUMMARY DATA
+    const allCandidates = [
+      { id: "mper-01", title: "SSS 관측 범위와 delay support를 결합한 보완 DMRS 배치", decision: "keep", dup: "", scores: "7 / 7 / 7", desc: "복원 행렬 최소 특이값 기반 보완 DMRS 배치 및 검증" },
+      { id: "mper-02", title: "SSS 바깥의 반복 DMRS로 시간 변화와 주파수 응답을 분리", decision: "duplicate", dup: "sca-15", scores: "5 / 7 / 6", desc: "sca-15(동일 톤 DMRS 쌍)와 동일 기능군 중복" },
+      { id: "mper-03", title: "SSS 공통 채널과 보완 DMRS 차분 채널을 이용한 2-Port 복원", decision: "duplicate", dup: "sca-05", scores: "6 / 6 / 7", desc: "sca-05(2-Port 차분 관측)와 동일 기능군 중복" },
+      { id: "mper-04", title: "SSS 여집합 DMRS의 symbol별 순환으로 2D 관측 연결", decision: "duplicate", dup: "sca-02", scores: "7 / 7 / 7", desc: "sca-02(순환 궤적 연결)와 동일 기능군 중복" },
+      { id: "mper-05", title: "경계 DMRS를 SSS 재사용의 유효성 검증에 활용", decision: "revise", dup: "", scores: "6 / 6 / 7", desc: "경계 검증 구조이나 통계적 신뢰도 보완 필요" },
+      { id: "mper-06", title: "보완 DMRS의 넓은 주파수 간격을 장지연 경로 검출에 활용", decision: "revise", dup: "", scores: "6 / 6 / 6", desc: "장지연 경로 식별 모호성 해소 수식 필요" },
+      { id: "mper-07", title: "SSS 여집합의 DMRS와 muted RE를 결합한 간섭 신뢰도 추정", decision: "revise", dup: "", scores: "6 / 6 / 6", desc: "간섭 공분산 추정 모델 명확화 필요" },
+      { id: "mper-08", title: "보완 DMRS의 검증 오차를 PBCH bit 신뢰도 계산에 활용", decision: "reject", dup: "", scores: "4 / 8 / 6", desc: "단순 LLR 스케일링으로 구별성 4점(기각)" },
+      { id: "mper-09", title: "전체 channel 반복 관측을 제거하고 보완 DMRS로 시간 innovation만 추정", decision: "duplicate", dup: "sca-04", scores: "6 / 7 / 6", desc: "sca-04와 중복" },
+      { id: "mper-10", title: "동일 beam의 반복 SSB 사이에서 보완 DMRS 중복 제거", decision: "duplicate", dup: "sca-12", scores: "7 / 6 / 7", desc: "sca-12와 중복" },
+      { id: "mper-11", title: "PCI와 고정 acquisition anchor로 DMRS mapping 지시 비트 제거", decision: "reject", dup: "", scores: "5 / 8 / 5", desc: "통상적 묵시적 지시로 구별성 및 가치 낮음" },
+      { id: "mper-12", title: "SSS 전체 배제 대신 오염된 관측 구간만 제거", decision: "revise", dup: "", scores: "6 / 7 / 6", desc: "국소 오염 판정 임계치 기준 보완 필요" },
+      { id: "mper-13", title: "PBCH의 검증된 부분 결정을 먼저 활용하는 channel refinement", decision: "keep", dup: "", scores: "7 / 7 / 7", desc: "List consensus pseudo-reference + holdout 롤백" },
+      { id: "mper-14", title: "SSS 관측 mask를 먼저 식별한 뒤 보완 DMRS를 해석하는 계층", decision: "duplicate", dup: "sca-08", scores: "5 / 7 / 6", desc: "sca-08과 중복" },
+      { id: "mper-15", title: "SSS 이전 PBCH를 buffering하고 이후 reference로 양방향 추정", decision: "reject", dup: "", scores: "5 / 8 / 6", desc: "단순 양방향 필터링으로 신규성 부족" },
+      { id: "mper-16", title: "PBCH 실패 이후 sync-only 요청으로 보완 DMRS를 추가", decision: "revise", dup: "", scores: "7 / 4 / 6", desc: "UL 요청 도입으로 실현성 4점(보완 필요)" },
+      { id: "sca-01", title: "SSS 추정 유효 영역과 DMRS 보완 영역을 함께 결정하는 배치", decision: "revise", dup: "", scores: "6 / 6 / 7", desc: "결정 기준 파라미터화 필요" },
+      { id: "sca-02", title: "SSS 관측을 다음 심볼의 보완 DMRS로 연결하는 교차 궤적", decision: "keep", dup: "", scores: "7 / 7 / 7", desc: "SSS 회전 빈자리에 DMRS 배치 temporal slope 추정" },
+      { id: "sca-03", title: "SSS 경계 양쪽에 배치하는 연결용 DMRS 쌍", decision: "duplicate", dup: "mper-05", scores: "6 / 6 / 7", desc: "mper-05와 중복" },
+      { id: "sca-04", title: "SSS 채널 형태와 DMRS 시간 혁신을 분리하는 추정", decision: "revise", dup: "", scores: "6 / 7 / 6", desc: "시간 혁신 모델 수학적 분리 필요" },
+      { id: "sca-05", title: "Common channel은 SSS로, port 차이는 보완 DMRS로 관측하는 2-Port 구조", decision: "revise", dup: "", scores: "6 / 6 / 7", desc: "2-Port 채널 조건수 및 분리식 보완" },
+      { id: "sca-06", title: "SSS 오염이 DMRS 추정까지 전파되지 않도록 제한하는 pilot fusion", decision: "duplicate", dup: "mper-12", scores: "6 / 7 / 6", desc: "mper-12와 중복" },
+      { id: "sca-07", title: "독립 DMRS 검증을 통과한 경우에만 SSS 추정을 채택하는 수신기", decision: "keep", dup: "", scores: "7 / 7 / 6", desc: "독립 DMRS likelihood 모델 선택" },
+      { id: "sca-08", title: "고정 bootstrap DMRS로 complementary mapping을 먼저 식별하는 구조", decision: "reject", dup: "", scores: "5 / 7 / 6", desc: "선행기술 bootstrap 신호와 유사" },
+      { id: "sca-09", title: "보완 DMRS로 검증한 인접 SSS 성분만 제거하는 공동 추정", decision: "revise", dup: "", scores: "7 / 5 / 7", desc: "계산 복잡도 최적화 필요" },
+      { id: "sca-10", title: "SSS 관측의 delay alias를 해소하는 complementary DMRS 배치", decision: "duplicate", dup: "mper-01", scores: "7 / 7 / 7", desc: "mper-01과 중복" },
+      { id: "sca-11", title: "추정 오차 상관을 분산시키는 PBCH rate matching과 DMRS 공동 설계", decision: "keep", dup: "", scores: "7 / 7 / 7", desc: "Error group 기반 Polar 비트 순열 매핑" },
+      { id: "sca-12", title: "두 SSB의 보완 pilot을 결합한 뒤 PBCH를 복조하는 paired 구조", decision: "revise", dup: "", scores: "7 / 6 / 7", desc: "SSB 간 빔 일관성 보장 조건 보완" },
+      { id: "sca-13", title: "공통 추정 오류 구간을 단위로 수행하는 제한적 erasure 재복호", decision: "keep", dup: "", scores: "7 / 7 / 6", desc: "오류 구간 LLR 소거(Erasure) 후 Polar 복호" },
+      { id: "sca-14", title: "Robust anchor에서 확정한 뒤 sparse DMRS profile로 전환하는 상태 기계", decision: "reject", dup: "", scores: "4 / 8 / 5", desc: "통상적 2-stage 동기와 구분 모호" },
+      { id: "sca-15", title: "SSS 앞뒤의 동일 톤 DMRS 쌍으로 phase 전파 방향을 제한하는 구조", decision: "reject", dup: "", scores: "5 / 7 / 6", desc: "위상 모호성 처리 미흡" },
+      { id: "sca-16", title: "현재 DMRS의 innovation으로 검증한 SSS channel memory만 재사용하는 수신기", decision: "reject", dup: "", scores: "5 / 8 / 5", desc: "칼만 필터의 통상 변형" },
+      { id: "sca-17", title: "추정 신뢰도에 맞춰 base PBCH와 enhancement를 분리하는 구조", decision: "revise", dup: "", scores: "6 / 5 / 6", desc: "계층 부호화 오버헤드 분석 필요" },
+      { id: "sca-18", title: "Sparse SSB 실패 시 채널 관측만 우선 보충하는 broadcast rescue", decision: "revise", dup: "", scores: "7 / 5 / 6", desc: "Rescue 신호 충돌 방지 룰 필요" }
+    ];
+
+    // 9 CLUSTERS DATA
+    const clustersData = [
+      { name: "1. Delay-domain conditioning", reps: "mper-01 (대표), sca-10", desc: "SSS 관측 대역의 지연 엘리어싱(Delay Alias)을 해소하고 최소 특이값을 극대화하는 보완 DMRS 배치" },
+      { name: "2. 동일 톤 Phase 전달", reps: "sca-15 (기각), mper-02", desc: "SSS 앞뒤의 동일 부반송파에 DMRS를 놓아 위상 변화 방향을 제약하려 한 군" },
+      { name: "3. 2-Port 합/차분 복원", reps: "sca-05 (보완), mper-03", desc: "SSS로 공통 채널을 추정하고 보완 DMRS로 포트 간 차분 채널을 관측하는 다이버시티 군" },
+      { name: "4. 순환 연결 Pilot", reps: "sca-02 (대표), mper-04", desc: "심볼별 SSS Comb 오프셋 순환으로 비워진 RE를 DMRS로 연결하여 시간-주파수 궤적 구축" },
+      { name: "5. 경계 검증 Fusion", reps: "mper-05 (보완), sca-03", desc: "SSS 대역 경계에 DMRS를 배치하여 SSS 모델의 외삽 정밀도를 검증하는 구조" },
+      { name: "6. Temporal Innovation", reps: "sca-04 (보완), mper-09, sca-16", desc: "전체 채널 대신 DMRS로 시간축 혁신(변화량)만을 추출하려는 접근군" },
+      { name: "7. 다중 SSB 상보 관측", reps: "sca-12 (보완), mper-10", desc: "반복 전송되는 SSB 간에 상호 보완적인 DMRS 패턴을 배치하여 결합 복호" },
+      { name: "8. Bootstrap Profile 시그널링", reps: "sca-08 (기각), mper-14, sca-14", desc: "고정 기준 신호로 희소 DMRS 모드를 먼저 식별한 후 진입하는 계층형 구조" },
+      { name: "9. 부분 대역 Robust Fusion", reps: "mper-12 (보완), sca-06, sca-09", desc: "SSS 전체 폐기 대신 국소 오염된 부반송파 블록만 선택적으로 소거/대체하는 기법" }
+    ];
+
+    let currentTop5Index = 0;
+    let currentFilter = 'all';
+
+    // RENDER TOP 5 LIST & DETAIL
+    function renderTop5() {
+      const listEl = document.getElementById('top5-list');
+      listEl.innerHTML = top5Data.map((item, idx) => `
+        <div onclick="selectTop5(${idx})" class="p-3 rounded-xl border transition-all cursor-pointer ${idx === currentTop5Index ? 'bg-[var(--card)] border-[var(--primary)] shadow-sm' : 'border-[var(--border)] hover:bg-[var(--card)]/50'}">
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-mono text-xs font-bold text-[var(--primary)]">${item.id}</span>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-[var(--background)] text-[var(--foreground)] border border-[var(--border)]">${item.score}</span>
+          </div>
+          <div class="text-xs font-semibold text-[var(--foreground)] line-clamp-1">${item.title}</div>
+          <div class="text-xs text-[var(--muted-foreground)] mt-1 flex items-center gap-2">
+            <span>SCAMPER: ${item.scamper}</span>
+          </div>
+        </div>
+      `).join('');
+
+      renderTop5Detail();
+    }
+
+    function selectTop5(idx) {
+      currentTop5Index = idx;
+      renderTop5();
+    }
+
+    function renderTop5Detail() {
+      const item = top5Data[currentTop5Index];
+      const detailEl = document.getElementById('top5-detail');
+      detailEl.innerHTML = `
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-[var(--border)]">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-[var(--primary)] text-[var(--primary-foreground)]">${item.id}</span>
+              <span class="text-xs text-[var(--muted-foreground)]">적용: ${item.domain}</span>
+            </div>
+            <h3 class="text-base font-bold text-[var(--foreground)]">${item.title}</h3>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="text-right">
+              <div class="text-xs text-[var(--muted-foreground)]">우선순위 점수</div>
+              <div class="text-lg font-bold text-emerald-500">${item.score}</div>
+            </div>
+            <div class="bg-[var(--background)] border border-[var(--border)] rounded-lg px-2.5 py-1 text-center text-xs">
+              <div class="text-[var(--muted-foreground)] text-xs">구별/실현/가치</div>
+              <div class="font-mono font-bold">${item.scores.distinct}/${item.scores.feasible}/${item.scores.value}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Problem & Grid Visual -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-3.5 bg-[var(--background)] border border-[var(--border)] rounded-xl space-y-2">
+            <div class="text-xs font-bold text-red-400">⚠️ 해결하려는 기술 문제</div>
+            <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">${item.problem}</p>
+            <div class="text-xs font-bold text-[var(--muted-foreground)] pt-2 border-t border-[var(--border)]">기존 한계</div>
+            <p class="text-xs text-[var(--muted-foreground)]">${item.existing}</p>
+          </div>
+
+          <div class="p-3.5 bg-[var(--background)] border border-[var(--border)] rounded-xl space-y-2">
+            <div class="text-xs font-bold text-blue-400">📊 자원 매핑 개념 (Resource Grid Concept)</div>
+            <div class="p-3 bg-[var(--card)] border border-[var(--border)] rounded-lg font-mono text-xs text-[var(--foreground)]">
+              ${item.gridConcept}
+            </div>
+            <div class="text-xs text-[var(--muted-foreground)] pt-2 border-t border-[var(--border)]">
+              <strong>핵심 상호작용:</strong> ${item.interaction}
+            </div>
+          </div>
+        </div>
+
+        <!-- Stepper: Operating Procedure -->
+        <div class="space-y-2">
+          <div class="text-xs font-bold uppercase tracking-wider text-[var(--muted-foreground)]">작동 절차 (Operational Stepper)</div>
+          <div class="space-y-2">
+            ${item.procedure.map((step, sIdx) => `
+              <div class="flex items-start gap-2.5 p-2.5 rounded-lg bg-[var(--background)] border border-[var(--border)] text-xs">
+                <span class="flex-shrink-0 w-5 h-5 rounded-full bg-[var(--primary)] text-[var(--primary-foreground)] flex items-center justify-center font-bold text-xs">${sIdx + 1}</span>
+                <span class="text-[var(--foreground)] leading-relaxed">${step}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- Counterargument Alert -->
+        <div class="p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl text-xs space-y-1">
+          <div class="font-bold text-amber-500 flex items-center gap-1.5">
+            <span>🛡️ 가장 강한 반론 (Counterargument)</span>
+          </div>
+          <p class="text-[var(--foreground)] leading-relaxed">${item.counterarg}</p>
+        </div>
+      `;
+    }
+
+    // RENDER TABLE
+    function renderTable() {
+      const q = document.getElementById('search-input').value.toLowerCase();
+      const filtered = allCandidates.filter(item => {
+        const matchesStatus = (currentFilter === 'all') || (item.decision === currentFilter);
+        const matchesQuery = item.id.toLowerCase().includes(q) || item.title.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q);
+        return matchesStatus && matchesQuery;
+      });
+
+      const tbody = document.getElementById('table-body');
+      tbody.innerHTML = filtered.map(item => `
+        <tr class="hover:bg-[var(--background)]/60 transition-colors cursor-pointer" onclick="openModal('${item.id}')">
+          <td class="px-4 py-2.5 font-mono font-bold text-[var(--primary)]">${item.id}</td>
+          <td class="px-4 py-2.5 font-medium text-[var(--foreground)]">${item.title}</td>
+          <td class="px-3 py-2.5 text-center">
+            <span class="badge-${item.decision} px-2 py-0.5 rounded text-xs font-semibold capitalize">${item.decision}</span>
+          </td>
+          <td class="px-3 py-2.5 text-center font-mono">${item.scores.split('/')[0].trim()}</td>
+          <td class="px-3 py-2.5 text-center font-mono">${item.scores.split('/')[1].trim()}</td>
+          <td class="px-3 py-2.5 text-center font-mono">${item.scores.split('/')[2].trim()}</td>
+          <td class="px-3 py-2.5 text-[var(--muted-foreground)]">
+            ${item.dup ? `<span class="text-xs font-mono text-slate-400">→ ${item.dup}</span>` : item.desc}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function filterCandidates(status) {
+      currentFilter = status;
+      document.querySelectorAll('.status-filter').forEach(btn => {
+        btn.classList.remove('active', 'bg-[var(--primary)]', 'text-[var(--primary-foreground)]');
+        btn.classList.add('border', 'border-[var(--border)]', 'text-[var(--muted-foreground)]');
+      });
+      event.target.classList.add('active', 'bg-[var(--primary)]', 'text-[var(--primary-foreground)]');
+      event.target.classList.remove('border', 'border-[var(--border)]', 'text-[var(--muted-foreground)]');
+      renderTable();
+    }
+
+    // RENDER CLUSTERS
+    function renderClusters() {
+      const container = document.getElementById('cluster-cards');
+      container.innerHTML = clustersData.map(c => `
+        <div class="p-4 bg-[var(--card)] border border-[var(--border)] rounded-xl space-y-2">
+          <h4 class="text-xs font-bold text-[var(--foreground)]">${c.name}</h4>
+          <div class="text-xs font-mono text-[var(--primary)] font-semibold">${c.reps}</div>
+          <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">${c.desc}</p>
+        </div>
+      `).join('');
+    }
+
+    // TAB SWITCHING
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('bg-[var(--primary)]', 'text-[var(--primary-foreground)]');
+        b.classList.add('text-[var(--muted-foreground)]', 'hover:text-[var(--foreground)]');
+      });
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+
+      document.getElementById('tab-' + tabId).classList.add('bg-[var(--primary)]', 'text-[var(--primary-foreground)]');
+      document.getElementById('tab-' + tabId).classList.remove('text-[var(--muted-foreground)]');
+      document.getElementById('content-' + tabId).classList.remove('hidden');
+    }
+
+    // MODAL
+    function openModal(id) {
+      const item = allCandidates.find(c => c.id === id);
+      if (!item) return;
+
+      document.getElementById('modal-id').textContent = item.id;
+      document.getElementById('modal-title').textContent = item.title;
+      document.getElementById('modal-badge').textContent = item.decision.toUpperCase();
+      document.getElementById('modal-badge').className = `badge-${item.decision} px-2 py-0.5 rounded text-xs font-semibold capitalize`;
+      document.getElementById('modal-scores').textContent = `${item.scores} (구별성 / 실현가능성 / 기술가치)`;
+      document.getElementById('modal-desc').textContent = item.desc + (item.dup ? ` [중복 대상: ${item.dup}]` : '');
+
+      document.getElementById('modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.add('hidden');
+    }
+
+    // INIT
+    window.onload = function() {
+      renderTop5();
+      renderTable();
+      renderClusters();
+    };
+  </script>
+</body>
+</html>
