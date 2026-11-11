@@ -1,0 +1,106 @@
+[PHY]    UE set to scan all GSCN in current bandwidth
+[NR_PHY] Starting sync detection
+[PHY]    [UE thread Synch] Running Initial Synch 
+[NR_PHY] Starting cell search with center freq: 3450000000, bandwidth: 51. Scanning for 8 number of GSCN.
+[NR_PHY] Scanning GSCN: 7808, with SSB offset: 18, SSB Freq: 3444960000.000000
+[NR_PHY] Scanning GSCN: 7809, with SSB offset: 66, SSB Freq: 3446400000.000000
+[NR_PHY] Scanning GSCN: 7810, with SSB offset: 114, SSB Freq: 3447840000.000000
+[NR_PHY] Scanning GSCN: 7811, with SSB offset: 162, SSB Freq: 3449280000.000000
+[NR_PHY] Scanning GSCN: 7812, with SSB offset: 210, SSB Freq: 3450720000.000000
+[NR_PHY] Scanning GSCN: 7813, with SSB offset: 258, SSB Freq: 3452160000.000000
+[NR_PHY] Scanning GSCN: 7814, with SSB offset: 306, SSB Freq: 3453600000.000000
+[NR_PHY] Scanning GSCN: 7815, with SSB offset: 354, SSB Freq: 3455040000.000000
+[PHY]    Initial sync: pbch not decoded, ssb index 0
+[PHY]    Initial sync: pbch not decoded, ssb index 0
+[PHY]    Initial sync: pbch decoded sucessfully, ssb index 4
+[PHY]    pbch rx ok. rsrp:69 dB/RE, adjust_rxgain:-19 dB
+[PHY]    Initial sync: pbch not decoded, ssb index 0
+[PHY]    Initial sync: pbch not decoded, ssb index 0
+[PHY]    Initial sync: pbch not decoded, ssb index 0
+[PHY]    Initial sync: pbch not decoded, ssb index 0
+[PHY]    Initial sync: pbch not decoded, ssb index 0
+[NR_PHY] Cell Detected with GSCN: 7812, SSB SC offset: 210, SSB Ref: 3450720000.000000, PSS Corr peak: 115 dB, PSS Corr Average: 72
+[PHY]    [UE0] In synch, rx_offset 166216 samples
+[PHY]    [UE 0] Measured Carrier Frequency offset -3793 Hz
+[PHY]    Initial sync successful, PCI: 960
+[NR_RRC] [UE 0] RNTI 0x0000 BCCH update: phyCellID 0->960, arfcn_ssb 0->630048
+[PHY]    HW: Configuring channel 0 (rf_chain 0): setting tx_freq 3449996207 Hz, rx_freq 3449996207 Hz, tune_offset 0
+Setting USRP TX Freq 3449996207.000000, RX Freq 3449996207.000000, tune_offset: 0.000000
+[PHY]    Got synch: hw_slot_offset 22, carrier off -3793 Hz
+[PHY]    UE synchronized! decoded_frame_rx=628 skipped_frames=18
+[PHY]    Resynchronizing RX by 166216 samples
+[HW]     received write reorder clear context
+[PHY]    max_pos_acc = 0, shiftForNextFrame = 0
+[PHY]    Frame 646, slot 2, SSB Index 4. Error decoding PBCH!
+[PHY]    Frame 648, slot 2, SSB Index 4. Error decoding PBCH!
+[PHY]    Frame 650, slot 2, SSB Index 4. Error decoding PBCH!
+[PHY]    Frame 652, slot 2, SSB Index 4. Error decoding PBCH!
+[PHY]    Frame 654, slot 2, SSB Index 4. Error decoding PBCH!
+[PHY]    Frame 656, slot 2, SSB Index 4. Error decoding PBCH!
+[NR_RRC] [UE 0] RNTI 0x0000 SIB1 decoded
+[NR_MAC] [UE 0] Initial cell selection: dl_frequency=3400860 kHz (from command-line, band=78, scs=1)
+[NR_MAC] Initial cell selection: uplink_frequency=3400860 kHz (from dl_frequency=3400860 kHz)
+[NR_MAC] TDD period index = 5, based on the sum of dl_UL_TransmissionPeriodicity from Pattern1 (2.500000 ms) and Pattern2 (0.000000 ms): Total = 2.500000 ms
+[NR_MAC] Set TDD configuration period to: 4 DL slots, 2 UL slots, 5 slots per period (NR_TDD_UL_DL_Pattern is 3 DL slots, 1 UL slots, 10 DL symbols, 2 UL symbols)
+[NR_MAC] Configured 1 TDD patterns (total slots: pattern1 = 5, pattern2 = 0)
+[PHY]    N_TA_offset changed from 0 to 400
+[MAC]    Initialization of 4-Step CBRA procedure
+[NR_MAC] [UE 0] selected PRACH occasion: start_symbol 8 fdm 0 slot 4 format 194
+[NR_MAC] PRACH scheduler: Selected RO Frame 657, Slot 4, Symbol 8, Fdm 0
+[PHY]    PRACH [UE 0] in frame.slot 657.4, placing PRACH in position 3452, Msg1/MsgA-Preamble frequency start 12 (k1 12), preamble_offset 8, first_nonzero_root_idx 0, preambleIndex = 25
+[PHY]    Frame 658, slot 2, SSB Index 4. Error decoding PBCH!
+[PHY]    Frame 658, slot 2, SSB Index 5. Error decoding PBCH!
+[MAC]    [UE 0] Response window timer expired, RAR reception failed
+[NR_MAC] [UE 0] selected PRACH occasion: start_symbol 8 fdm 0 slot 4 format 194
+[NR_MAC] PRACH scheduler: Selected RO Frame 659, Slot 4, Symbol 8, Fdm 0
+[PHY]    PRACH [UE 0] in frame.slot 659.4, placing PRACH in position 3452, Msg1/MsgA-Preamble frequency start 12 (k1 12), preamble_offset 3, first_nonzero_root_idx 0, preambleIndex = 11
+[PHY]    Frame 660, slot 0, SSB Index 0. Error decoding PBCH!
+[MAC]    [UE 0] Response window timer expired, RAR reception failed
+[NR_MAC] [UE 0] selected PRACH occasion: start_symbol 8 fdm 0 slot 4 format 194
+[NR_MAC] PRACH scheduler: Selected RO Frame 661, Slot 4, Symbol 8, Fdm 0
+[PHY]    PRACH [UE 0] in frame.slot 661.4, placing PRACH in position 3452, Msg1/MsgA-Preamble frequency start 12 (k1 12), preamble_offset 7, first_nonzero_root_idx 0, preambleIndex = 21
+[PHY]    Frame 662, slot 0, SSB Index 0. Error decoding PBCH!
+[PHY]    Frame 662, slot 3, SSB Index 6. Error decoding PBCH!
+[MAC]    [UE 0] Response window timer expired, RAR reception failed
+[NR_MAC] [UE 0] selected PRACH occasion: start_symbol 8 fdm 0 slot 4 format 194
+[NR_MAC] PRACH scheduler: Selected RO Frame 663, Slot 4, Symbol 8, Fdm 0
+[PHY]    PRACH [UE 0] in frame.slot 663.4, placing PRACH in position 3452, Msg1/MsgA-Preamble frequency start 12 (k1 12), preamble_offset 2, first_nonzero_root_idx 0, preambleIndex = 6
+[PHY]    Frame 664, slot 3, SSB Index 6. Error decoding PBCH!
+[MAC]    [UE 0] Response window timer expired, RAR reception failed
+[NR_MAC] [UE 0] selected PRACH occasion: start_symbol 8 fdm 0 slot 4 format 194
+[NR_MAC] PRACH scheduler: Selected RO Frame 665, Slot 4, Symbol 8, Fdm 0
+[PHY]    PRACH [UE 0] in frame.slot 665.4, placing PRACH in position 3452, Msg1/MsgA-Preamble frequency start 12 (k1 12), preamble_offset 1, first_nonzero_root_idx 0, preambleIndex = 3
+[PHY]    Frame 666, slot 0, SSB Index 0. Error decoding PBCH!
+[PHY]    Frame 666, slot 3, SSB Index 6. Error decoding PBCH!
+[MAC]    [UE 0] Response window timer expired, RAR reception failed
+[NR_MAC] [UE 0] selected PRACH occasion: start_symbol 8 fdm 0 slot 4 format 194
+[NR_MAC] PRACH scheduler: Selected RO Frame 667, Slot 4, Symbol 8, Fdm 0
+[PHY]    PRACH [UE 0] in frame.slot 667.4, placing PRACH in position 3452, Msg1/MsgA-Preamble frequency start 12 (k1 12), preamble_offset 7, first_nonzero_root_idx 0, preambleIndex = 22
+[PHY]    Frame 668, slot 0, SSB Index 0. Error decoding PBCH!
+[MAC]    [UE 0] Response window timer expired, RAR reception failed
+[NR_MAC] [UE 0] selected PRACH occasion: start_symbol 8 fdm 0 slot 4 format 194
+[NR_MAC] PRACH scheduler: Selected RO Frame 669, Slot 4, Symbol 8, Fdm 0
+[PHY]    PRACH [UE 0] in frame.slot 669.4, placing PRACH in position 3452, Msg1/MsgA-Preamble frequency start 12 (k1 12), preamble_offset 5, first_nonzero_root_idx 0, preambleIndex = 17
+[PHY]    Frame 670, slot 0, SSB Index 0. Error decoding PBCH!
+[MAC]    [UE 0] Response window timer expired, RAR reception failed
+[NR_MAC] [UE 0] selected PRACH occasion: start_symbol 8 fdm 0 slot 4 format 194
+[NR_MAC] PRACH scheduler: Selected RO Frame 671, Slot 4, Symbol 8, Fdm 0
+[PHY]    PRACH [UE 0] in frame.slot 671.4, placing PRACH in position 3452, Msg1/MsgA-Preamble frequency start 12 (k1 12), preamble_offset 7, first_nonzero_root_idx 0, preambleIndex = 23
+[PHY]    Frame 672, slot 0, SSB Index 0. Error decoding PBCH!
+[MAC]    [UE 0] Response window timer expired, RAR reception failed
+[NR_MAC] [UE 0] selected PRACH occasion: start_symbol 8 fdm 0 slot 4 format 194
+[NR_MAC] PRACH scheduler: Selected RO Frame 673, Slot 4, Symbol 8, Fdm 0
+[PHY]    PRACH [UE 0] in frame.slot 673.4, placing PRACH in position 3452, Msg1/MsgA-Preamble frequency start 12 (k1 12), preamble_offset 5, first_nonzero_root_idx 0, preambleIndex = 15
+[PHY]    Frame 674, slot 0, SSB Index 0. Error decoding PBCH!
+[MAC]    [UE 0] Response window timer expired, RAR reception failed
+[NR_MAC] [UE 0] selected PRACH occasion: start_symbol 8 fdm 0 slot 4 format 194
+[NR_MAC] PRACH scheduler: Selected RO Frame 675, Slot 4, Symbol 8, Fdm 0
+[PHY]    PRACH [UE 0] in frame.slot 675.4, placing PRACH in position 3452, Msg1/MsgA-Preamble frequency start 12 (k1 12), preamble_offset 1, first_nonzero_root_idx 0, preambleIndex = 5
+[PHY]    Received a RAR-Msg2 but LDPC decode failed
+[PHY]    Frame 676, slot 0, SSB Index 0. Error decoding PBCH!
+[MAC]    [UE 0] Response window timer expired, RAR reception failed
+[NR_RRC] [UE 0] RNTI 0x0000 RRC moved into IDLE state
+[NAS]    [UE 0] Received NR_NAS_CONN_RELEASE_IND: cause OTHER
+[NR_MAC] [UE 0] selected PRACH occasion: start_symbol 8 fdm 0 slot 4 format 194
+[NR_MAC] [UE0] Initializing MAC
+[NR_PHY] [UE 0] SYNC REQ: RF frequency change: dl 3450000000->3410040000 Hz, ul 3450000000->3410040000 Hz (from dl_frequency=3400860 kHz, target_Nid_cell=-1)

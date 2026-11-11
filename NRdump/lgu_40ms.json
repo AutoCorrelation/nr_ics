@@ -1,0 +1,27 @@
+{
+  "capture_timestamp": "2026-11-05 19:56:05",
+  "operator": "LG U+",
+  "center_freq_hz": 3450000000.0,
+  "sample_rate_hz": 30720000,
+  "point_a_hz": 3440820000.0,
+  "duration_ms": 40.0,
+  "total_samples": 1228800,
+  "format": "int16_iq_interleaved",
+  "bytes_per_sample": 4,
+  "file_size_bytes": 4915200,
+  "num_prb": 51,
+  "scs_khz": 30,
+  "fft_size": 1024,
+  "sync_parameters": {
+    "target_pci": 960,
+    "nid_2_pss": 0,
+    "nid_1_sss": 320,
+    "detected_ssb_sc_offset": 210,
+    "ssb_center_freq_hz": 3450720000.0,
+    "gscn": 7812,
+    "ssb_index": 4,
+    "ssb_pattern": "Case C",
+    "ssb_num_prb": 20,
+    "ssb_num_symbols": 4
+  }
+}

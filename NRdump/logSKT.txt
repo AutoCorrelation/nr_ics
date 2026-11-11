@@ -1,0 +1,38 @@
+[PHY]    UE set to scan all GSCN in current bandwidth
+[NR_PHY] Starting sync detection
+[PHY]    [UE thread Synch] Running Initial Synch 
+[NR_PHY] Starting cell search with center freq: 3655200000, bandwidth: 51. Scanning for 7 number of GSCN.
+[NR_PHY] Scanning GSCN: 7951, with SSB offset: 42, SSB Freq: 3650880000.000000
+[NR_PHY] Scanning GSCN: 7952, with SSB offset: 90, SSB Freq: 3652320000.000000
+[NR_PHY] Scanning GSCN: 7953, with SSB offset: 138, SSB Freq: 3653760000.000000
+[NR_PHY] Scanning GSCN: 7954, with SSB offset: 186, SSB Freq: 3655200000.000000
+[NR_PHY] Scanning GSCN: 7955, with SSB offset: 234, SSB Freq: 3656640000.000000
+[NR_PHY] Scanning GSCN: 7956, with SSB offset: 282, SSB Freq: 3658080000.000000
+[NR_PHY] Scanning GSCN: 7957, with SSB offset: 330, SSB Freq: 3659520000.000000
+[PHY]    Initial sync: pbch not decoded, ssb index 0
+[PHY]    Initial sync: pbch not decoded, ssb index 0
+[PHY]    Initial sync: pbch not decoded, ssb index 0
+[PHY]    Initial sync: pbch decoded sucessfully, ssb index 1
+[PHY]    pbch rx ok. rsrp:67 dB/RE, adjust_rxgain:-17 dB
+[PHY]    Initial sync: pbch not decoded, ssb index 0
+[PHY]    Initial sync: pbch not decoded, ssb index 0
+[PHY]    Initial sync: pbch not decoded, ssb index 0
+[NR_PHY] Cell Detected with GSCN: 7952, SSB SC offset: 90, SSB Ref: 3652320000.000000, PSS Corr peak: 109 dB, PSS Corr Average: 70
+[PHY]    [UE0] In synch, rx_offset 68632 samples
+[PHY]    [UE 0] Measured Carrier Frequency offset -3911 Hz
+[PHY]    Initial sync successful, PCI: 508
+[PHY]    HW: Configuring channel 0 (rf_chain 0): setting tx_freq 3655196089 Hz, rx_freq 3655196089 Hz, tune_offset 0
+[NR_RRC] [UE 0] RNTI 0x0000 BCCH update: phyCellID 0->508, arfcn_ssb 0->643488
+Setting USRP TX Freq 3655196089.000000, RX Freq 3655196089.000000, tune_offset: 0.000000
+[PHY]    Got synch: hw_slot_offset 9, carrier off -3911 Hz
+[MAC]    Cell is barred. Going back to sync mode.
+[PHY]    UE synchronized! decoded_frame_rx=0 skipped_frames=16
+[PHY]    Resynchronizing RX by 68632 samples
+[HW]     received write reorder clear context
+[PHY]    max_pos_acc = 0, shiftForNextFrame = 0
+[PHY]    SSB position provided
+[NR_PHY] Starting sync detection
+[PHY]    [UE thread Synch] Running Initial Synch 
+[NR_PHY] Starting cell search with center freq: 3655200000, bandwidth: 51. Scanning for 1 number of GSCN.
+[NR_PHY] Scanning GSCN: 0, with SSB offset: 90, SSB Freq: 0.000000
+[PHY]    Initial sync: pbch decoded sucessfully, ssb index 1
