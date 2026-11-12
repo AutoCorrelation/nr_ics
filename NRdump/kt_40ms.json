@@ -1,0 +1,31 @@
+{
+  "capture_timestamp": "2026-11-11 16:59:55",
+  "operator": "KT",
+  "center_freq_hz": 3547500000.0,
+  "sample_rate_hz": 30720000,
+  "point_a_hz": 3538320000.0,
+  "duration_ms": 40.0,
+  "total_samples": 1228800,
+  "format": "int16_iq_interleaved",
+  "bytes_per_sample": 4,
+  "file_size_bytes": 4915200,
+  "num_prb": 51,
+  "scs_khz": 30,
+  "fft_size": 1024,
+  "sync_parameters": {
+    "target_pci": 325,
+    "nid_2_pss": 1,
+    "nid_1_sss": 108,
+    "detected_ssb_sc_offset": 272,
+    "ssb_center_freq_hz": 3550080000.0,
+    "gscn": 7881,
+    "arfcn_ssb": 636672,
+    "ssb_index": 1,
+    "measured_cfo_hz": -3143.0,
+    "rsrp_db_per_re": 16,
+    "pss_corr_peak_db": 63,
+    "ssb_pattern": "Case C",
+    "ssb_num_prb": 20,
+    "ssb_num_symbols": 4
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "seed": 20261112,
+  "profiles": [
+    "skt",
+    "kt",
+    "lgu"
+  ],
+  "device": "cuda",
+  "output_dir": "artifacts/full",
+  "train_count": 20000,
+  "validation_count": 4000,
+  "test_count": 10000,
+  "generation_batch_size": 64,
+  "training_seeds": [
+    1,
+    2,
+    3
+  ],
+  "training": {
+    "epochs": 30,
+    "batch_size": 32,
+    "width": 32,
+    "blocks": 3,
+    "patience": 5,
+    "lr": 0.001
+  },
+  "diagonal_loading": 0.001,
+  "training_conditions": [
+    {
+      "channel": {
+        "family": "tdl",
+        "profile": "A",
+        "delay_spread_s": 3e-08,
+        "speed_mps": 0
+      },
+      "snr_db": -5
+    },
+    {
+      "channel": {
+        "family": "tdl",
+        "profile": "C",
+        "delay_spread_s": 1e-07,
+        "speed_mps": 10
+      },
+      "snr_db": 5
+    }
+  ],
+  "test_conditions": [
+    {
+      "channel": {
+        "family": "tdl",
+        "profile": "A",
+        "delay_spread_s": 3e-08,
+        "speed_mps": 0
+      },
+      "snr_db": -5
+    },
+    {
+      "channel": {
+        "family": "tdl",
+        "profile": "B",
+        "delay_spread_s": 3e-07,
+        "speed_mps": 20
+      },
+      "snr_db": 0
+    },
+    {
+      "channel": {
+        "family": "tdl",
+        "profile": "C",
+        "delay_spread_s": 3e-07,
+        "speed_mps": 20
+      },
+      "snr_db": 10
+    }
+  ],
+  "decoder_batch_size": 1024,
+  "evaluation_batch_size": 32,
+  "reference_schema_revision": 2
+}

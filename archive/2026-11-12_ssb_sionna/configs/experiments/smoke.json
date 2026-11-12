@@ -1,0 +1,39 @@
+{
+  "seed": 20261112,
+  "profiles": [
+    "skt"
+  ],
+  "device": "cpu",
+  "output_dir": "artifacts/smoke",
+  "train_count": 4,
+  "validation_count": 2,
+  "test_count": 2,
+  "generation_batch_size": 2,
+  "training_seeds": [
+    1
+  ],
+  "training": {
+    "epochs": 1,
+    "batch_size": 2,
+    "width": 8,
+    "blocks": 1,
+    "patience": 1
+  },
+  "training_conditions": [
+    {
+      "channel": {
+        "family": "identity"
+      },
+      "snr_db": 5
+    }
+  ],
+  "test_conditions": [
+    {
+      "channel": {
+        "family": "identity"
+      },
+      "snr_db": 5
+    }
+  ],
+  "reference_schema_revision": 2
+}

@@ -1,0 +1,26 @@
+{
+  "status": "passed",
+  "executable": "C:\\workspace\\nr_ics\\.venv\\Scripts\\python.exe",
+  "environment": "C:\\workspace\\nr_ics\\.venv",
+  "python": "3.11.16",
+  "torch": "2.9.1+cu128",
+  "cuda_runtime": "12.8",
+  "cudnn": 91002,
+  "cuda_available": true,
+  "gpu": "NVIDIA GeForce RTX 3060",
+  "gpu_memory_bytes": 12884377600,
+  "compute_capability": [
+    8,
+    6
+  ],
+  "matmul_max_abs_error": 2.842170943040401e-14,
+  "complex_grid_shape": [
+    2,
+    240,
+    4
+  ],
+  "complex_grid_max_abs_error": 2.6656007889869215e-07,
+  "cnn_loss": 1.0409246683120728,
+  "cnn_finite_gradients": true,
+  "cnn_weights_updated": true
+}

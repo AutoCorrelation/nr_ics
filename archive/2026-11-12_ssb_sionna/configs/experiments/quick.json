@@ -1,0 +1,61 @@
+{
+  "seed": 20261112,
+  "profiles": [
+    "skt",
+    "kt",
+    "lgu"
+  ],
+  "device": "cuda",
+  "output_dir": "artifacts/quick",
+  "train_count": 16,
+  "validation_count": 8,
+  "test_count": 4,
+  "generation_batch_size": 4,
+  "training_seeds": [
+    1
+  ],
+  "training": {
+    "epochs": 2,
+    "batch_size": 4,
+    "width": 16,
+    "blocks": 2,
+    "patience": 2,
+    "lr": 0.001
+  },
+  "diagonal_loading": 0.001,
+  "training_conditions": [
+    {
+      "channel": {
+        "family": "identity"
+      },
+      "snr_db": 0
+    },
+    {
+      "channel": {
+        "family": "tdl",
+        "profile": "C",
+        "delay_spread_s": 1e-07,
+        "speed_mps": 0
+      },
+      "snr_db": 5
+    }
+  ],
+  "test_conditions": [
+    {
+      "channel": {
+        "family": "identity"
+      },
+      "snr_db": 5
+    },
+    {
+      "channel": {
+        "family": "tdl",
+        "profile": "C",
+        "delay_spread_s": 1e-07,
+        "speed_mps": 0
+      },
+      "snr_db": 5
+    }
+  ],
+  "reference_schema_revision": 2
+}

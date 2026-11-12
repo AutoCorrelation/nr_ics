@@ -1,0 +1,178 @@
+{
+  "seed": 20261112,
+  "profiles": [
+    "skt",
+    "kt",
+    "lgu"
+  ],
+  "device": "cuda",
+  "output_dir": "artifacts/classical_validation",
+  "train_count": 256,
+  "validation_count": 64,
+  "test_count": 40,
+  "generation_batch_size": 32,
+  "evaluation_batch_size": 32,
+  "decoder_batch_size": 1024,
+  "training_seeds": [],
+  "training": {
+    "epochs": 5,
+    "batch_size": 32,
+    "width": 16,
+    "blocks": 2,
+    "patience": 5,
+    "lr": 0.001
+  },
+  "diagonal_loading": 0.001,
+  "training_conditions": [
+    {
+      "channel": {
+        "family": "identity"
+      },
+      "snr_db": -10
+    },
+    {
+      "channel": {
+        "family": "identity"
+      },
+      "snr_db": 0
+    },
+    {
+      "channel": {
+        "family": "identity"
+      },
+      "snr_db": 5
+    },
+    {
+      "channel": {
+        "family": "tdl",
+        "profile": "C",
+        "delay_spread_s": 1e-07,
+        "speed_mps": 0
+      },
+      "snr_db": -10
+    },
+    {
+      "channel": {
+        "family": "tdl",
+        "profile": "C",
+        "delay_spread_s": 1e-07,
+        "speed_mps": 0
+      },
+      "snr_db": 0
+    },
+    {
+      "channel": {
+        "family": "tdl",
+        "profile": "C",
+        "delay_spread_s": 1e-07,
+        "speed_mps": 0
+      },
+      "snr_db": 5
+    }
+  ],
+  "test_conditions": [
+    {
+      "channel": {
+        "family": "identity"
+      },
+      "snr_db": -10
+    },
+    {
+      "channel": {
+        "family": "identity"
+      },
+      "snr_db": -5
+    },
+    {
+      "channel": {
+        "family": "identity"
+      },
+      "snr_db": 0
+    },
+    {
+      "channel": {
+        "family": "identity"
+      },
+      "snr_db": 5
+    },
+    {
+      "channel": {
+        "family": "identity"
+      },
+      "snr_db": 10
+    },
+    {
+      "channel": {
+        "family": "identity"
+      },
+      "snr_db": 15
+    },
+    {
+      "channel": {
+        "family": "tdl",
+        "profile": "C",
+        "delay_spread_s": 1e-07,
+        "speed_mps": 0
+      },
+      "snr_db": -10
+    },
+    {
+      "channel": {
+        "family": "tdl",
+        "profile": "C",
+        "delay_spread_s": 1e-07,
+        "speed_mps": 0
+      },
+      "snr_db": -5
+    },
+    {
+      "channel": {
+        "family": "tdl",
+        "profile": "C",
+        "delay_spread_s": 1e-07,
+        "speed_mps": 0
+      },
+      "snr_db": 0
+    },
+    {
+      "channel": {
+        "family": "tdl",
+        "profile": "C",
+        "delay_spread_s": 1e-07,
+        "speed_mps": 0
+      },
+      "snr_db": 5
+    },
+    {
+      "channel": {
+        "family": "tdl",
+        "profile": "C",
+        "delay_spread_s": 1e-07,
+        "speed_mps": 0
+      },
+      "snr_db": 10
+    },
+    {
+      "channel": {
+        "family": "tdl",
+        "profile": "C",
+        "delay_spread_s": 1e-07,
+        "speed_mps": 0
+      },
+      "snr_db": 15
+    }
+  ],
+  "test_profile_overrides": {
+    "skt": [
+      {
+        "label": "unseen_comb2",
+        "pci": 326
+      },
+      {
+        "label": "unseen_comb3",
+        "pci": 327
+      }
+    ]
+  },
+  "source_revision": "io-consistency-v2b"
+}
